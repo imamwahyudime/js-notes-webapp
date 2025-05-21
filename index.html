@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan Lokal Saya</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="user-login-area" class="user-login-area">
+            <h2>Selamat Datang!</h2>
+            <p>Masukkan nama pengguna Anda untuk memulai atau memuat catatan Anda.</p>
+            <input type="text" id="username-input" placeholder="Nama Pengguna">
+            <button id="login-button">Masuk / Lanjutkan</button>
+            <p id="greeting-message" class="hidden"></p>
+            <button id="logout-button" class="hidden">Ganti Pengguna</button>
+        </div>
+
+        <div id="main-app-area" class="main-app-area hidden">
+            <header>
+                <h1>Catatan <span id="active-username-display"></span></h1>
+                <button id="create-new-note-button">Buat Catatan Baru</button>
+            </header>
+
+            <div class="content-wrapper">
+                <aside class="sidebar">
+                    <h2>Daftar Catatan</h2>
+                    <ul id="notes-list">
+                        </ul>
+                </aside>
+
+                <main class="note-detail-area">
+                    <div id="note-view" class="note-view hidden">
+                        <h3 id="note-view-title"></h3>
+                        <div id="note-view-content" class="markdown-body"></div>
+                        <div class="note-actions">
+                            <button id="edit-note-button">Edit</button>
+                            <button id="delete-note-button" class="danger">Hapus</button>
+                            <button id="close-note-view-button">Tutup</button>
+                        </div>
+                    </div>
+
+                    <div id="note-editor" class="note-editor hidden">
+                        <h2>Editor Catatan</h2>
+                        <input type="text" id="note-title-input" placeholder="Judul Catatan">
+                        <textarea id="note-content-input" placeholder="Isi catatan Anda di sini... (Markdown didukung)"></textarea>
+                        <div class="editor-actions">
+                            <button id="save-note-button">Simpan</button>
+                            <button id="cancel-edit-button">Batal</button>
+                        </div>
+                    </div>
+
+                    <div id="welcome-message-area" class="welcome-message">
+                        <p>Pilih catatan untuk dilihat atau buat catatan baru.</p>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/noteManager.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
