@@ -152,6 +152,57 @@ function deleteNote(noteId) {
 }
 
 /**
+ * Mengekspor semua catatan pengguna aktif ke file JSON.
+ * @param {string} username - Nama pengguna aktif.
+ */
+function exportNotesAsJson(username) {
+    const notes = getAllNotes(); // Dapatkan catatan pengguna aktif
+    if (notes.length === 0) {
+        alert('Tidak ada catatan untuk diekspor.');
+        return;
+    }
+
+    const dataStr = JSON.stringify(notes, null, 2); // Pretty print JSON
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${username}_notes.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url); // Clean up
+    alert('Catatan berhasil diekspor sebagai ' + a.download);
+}
+
+/**
+ * Mengimpor catatan dari array dan menyimpannya untuk pengguna aktif.
+ * Catatan yang diimpor akan menimpa catatan yang ada dengan ID yang sama.
+ * @param {Array<Object>} importedNotes - Array catatan yang diimpor.
+ * @returns {boolean} True jika impor berhasil, false jika tidak ada pengguna aktif.
+ */
+function importNotes(importedNotes) {
+    const activeUser = getActiveUser();
+    if (!activeUser) {
+        alert("Tidak ada pengguna aktif. Silakan masuk terlebih dahulu.");
+        return false;
+    }
+
+    let existingNotes = getAllNotes();
+    const importedIds = new Set(importedNotes.map(note => note.id));
+
+    // Filter out existing notes that have IDs present in the imported notes
+    const notesToKeep = existingNotes.filter(note => !importedIds.has(note.id));
+
+    // Combine notes to keep with the imported notes
+    const finalNotes = [...notesToKeep, ...importedNotes];
+
+    saveNotes(finalNotes);
+    return true;
+}
+
+
+/**
  * (Opsional) Mencari catatan berdasarkan query di judul atau isi.
  * @param {string} query - String pencarian.
  * @returns {Array<Object>} Array catatan yang cocok.

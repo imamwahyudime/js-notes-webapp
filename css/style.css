@@ -93,6 +93,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+.main-app-area header .header-actions {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    flex-wrap: wrap;
+    margin-top: 5px; /* Adjust as needed */
 }
 
 .main-app-area header h1 {
@@ -319,5 +326,14 @@ button#cancel-edit-button:hover {
     .main-app-area header button {
         margin-top: 10px;
         align-self: flex-start;
+    }
+    .main-app-area header .header-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 5px;
+    }
+    .main-app-area header .header-actions button {
+        width: 100%;
+        margin-right: 0;
     }
 }

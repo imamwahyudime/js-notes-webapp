@@ -13,6 +13,10 @@ const logoutButton = document.getElementById('logout-button');
 const mainAppArea = document.getElementById('main-app-area');
 const activeUsernameDisplay = document.getElementById('active-username-display');
 const createNewNoteButton = document.getElementById('create-new-note-button');
+const importNotesButton = document.getElementById('import-notes-button');
+const importNotesInput = document.getElementById('import-notes-input');
+const exportNotesButton = document.getElementById('export-notes-button');
+
 
 const notesListUl = document.getElementById('notes-list');
 

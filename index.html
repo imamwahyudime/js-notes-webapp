@@ -20,7 +20,12 @@
         <div id="main-app-area" class="main-app-area hidden">
             <header>
                 <h1>Catatan <span id="active-username-display"></span></h1>
-                <button id="create-new-note-button">Buat Catatan Baru</button>
+                <div class="header-actions">
+                    <button id="create-new-note-button">Buat Catatan Baru</button>
+                    <input type="file" id="import-notes-input" accept=".json" class="hidden">
+                    <button id="import-notes-button">Impor Catatan</button>
+                    <button id="export-notes-button">Ekspor Catatan</button>
+                </div>
             </header>
 
             <div class="content-wrapper">

@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelEditButton.addEventListener('click', handleCancelEdit);
     closeNoteViewButton.addEventListener('click', handleCloseNoteView);
 
+    // Event Listeners for Import/Export
+    exportNotesButton.addEventListener('click', handleExportNotes);
+    importNotesButton.addEventListener('click', () => importNotesInput.click()); // Trigger hidden file input
+    importNotesInput.addEventListener('change', handleImportNotes);
+
     // (Opsional) Event listener untuk pencarian, jika diimplementasikan
     // const searchInput = document.getElementById('search-input'); // Anda perlu menambahkan elemen ini di HTML
     // if (searchInput) {
@@ -168,6 +173,53 @@ function handleCancelEdit() {
  */
 function handleCloseNoteView() {
     showWelcomeMessage(); // Dari ui.js
+}
+
+/**
+ * Menangani ekspor catatan pengguna aktif ke file JSON.
+ */
+function handleExportNotes() {
+    const activeUser = getActiveUser(); // From auth.js
+    if (!activeUser) {
+        alert('Tidak ada pengguna aktif untuk diekspor catatannya.');
+        return;
+    }
+    exportNotesAsJson(activeUser); // From noteManager.js
+}
+
+/**
+ * Menangani impor catatan dari file JSON.
+ * @param {Event} event - Event dari input file.
+ */
+function handleImportNotes(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const importedNotes = JSON.parse(e.target.result);
+            if (Array.isArray(importedNotes) && importedNotes.every(note => note.id && note.title && note.content)) {
+                if (confirm('Mengimpor catatan akan menimpa catatan yang ada dengan judul yang sama. Lanjutkan?')) {
+                    importNotes(importedNotes); // From noteManager.js
+                    renderNotesList(); // Update UI
+                    showWelcomeMessage(); // Go back to welcome message
+                    alert('Catatan berhasil diimpor!');
+                }
+            } else {
+                alert('Format file JSON tidak valid. Pastikan berisi array catatan dengan properti id, title, dan content.');
+            }
+        } catch (error) {
+            console.error('Error parsing imported file:', error);
+            alert('Gagal memproses file. Pastikan itu adalah file JSON yang valid.');
+        } finally {
+            // Clear the file input so that the same file can be selected again
+            event.target.value = '';
+        }
+    };
+    reader.readAsText(file);
 }
 
 // Catatan: currentOpenNoteId adalah variabel global dari ui.js.
